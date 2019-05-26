@@ -75,7 +75,7 @@ def scrape_vsco(username):
 
 
 username = raw_input('Username: ')
-while username.upper() != "EXIT" or username.upper() != "QUIT":
+while username.upper() != "EXIT" and username.upper() != "QUIT":
     scrape_vsco(username)
     username = raw_input('Username: ')
     

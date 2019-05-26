@@ -1,5 +1,8 @@
 import requests, json, urllib, os, errno
 
+# Profile Image:
+from PIL import Image
+import urllib2
 
 def scrape_vsco(username):
 
@@ -28,13 +31,14 @@ def scrape_vsco(username):
     contents = profile.text
 
     # Profile picture
-    profile_picture_link = contents.split('"siteProfileImageUrl":"')[1]
+    profile_picture_link = contents.split('"profileImage":"')[1]
     profile_picture_link = profile_picture_link[:profile_picture_link.index('"')]
-
+    profile_picture_link = profile_picture_link.split("?")[0]
+    
     # Save profile picture
-    urllib.urlretrieve(profile_picture_link, "profile_picture.jpg")
     print "Downloading profile picture..."
-
+    im = Image.open(urllib2.urlopen(profile_picture_link))
+    im.save('profile_picture.jpg')
 
     while True:
 
@@ -66,4 +70,12 @@ def scrape_vsco(username):
         # Data from html page
         contents = profile.text
 
+    os.chdir('../')
+
+
+
+username = raw_input('Username: ')
+while username.upper() != "EXIT" or username.upper() != "QUIT":
+    scrape_vsco(username)
+    username = raw_input('Username: ')
     
